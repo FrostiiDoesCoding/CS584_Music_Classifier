@@ -1,8 +1,8 @@
-import nltk, string, math, random, re, time
+import string, math, random, re, time
 import sklearn, scipy
 import numpy as np
 import pandas as pd
-
+import tensorflow
 
 def main():
     input_file = "fma_metadata/features_2.csv"
@@ -11,7 +11,7 @@ def main():
     echo =  pd.read_csv(input_echo, encoding='utf-8', sep=',', header=None)[0].tolist()
 
     features = pd.read_csv(input_file, encoding='utf-8', sep=',', header=None, chunksize= 10000)
-
+    
     for chunk in features:
         try:
             data_filter = data_filter.append(chunk[chunk[0].isin(echo)])
