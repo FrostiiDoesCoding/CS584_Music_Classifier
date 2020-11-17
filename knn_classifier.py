@@ -9,7 +9,11 @@ import csv
 from sklearn.metrics.pairwise import cosine_similarity
 
 tracks_genres = pd.read_csv('./fma_metadata/tracks_genres.csv')
-echonest_edit = pd.read_csv('./fma_metadata/echonest_edit.csv', dtype={'3':float})
+echonest_edit = pd.read_csv('./fma_metadata/echonest_edit.csv')
+
+echonest_edit2 = pd.read_csv('./fma_metadata/echonest_edit2.csv')
+
+echonest_edit2 = echonest_edit2.drop('track_id', axis=1)
 
 # print(tracks_genres.head)
 # print(echonest_edit.head)
@@ -59,11 +63,11 @@ for i in range(0, len(g)):
     # print(y[0])
 
 
-X = echonest_edit
+X = echonest_edit2
 y = t
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)  # split
-KNN = KNeighborsClassifier(n_neighbors=5)
+KNN = KNeighborsClassifier(n_neighbors=50, metric='euclidean')
 KNN.fit(X_train, y_train)  # KNN
 
 knn_predict = KNN.predict(X_test)
