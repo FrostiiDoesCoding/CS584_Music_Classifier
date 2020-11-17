@@ -1,4 +1,4 @@
-import nltk, string, math, random, re, time
+import string, math, random, re, time
 import sklearn, scipy
 import numpy as np
 import pandas as pd
