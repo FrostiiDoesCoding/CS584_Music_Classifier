@@ -9,11 +9,11 @@ import csv
 from sklearn.metrics.pairwise import cosine_similarity
 
 tracks_genres = pd.read_csv('./fma_metadata/tracks_genres.csv')
-echonest_edit = pd.read_csv('./fma_metadata/echonest_edit.csv')
+echonest_edit2 = pd.read_csv('./fma_metadata/echonest_edit.csv')
 
-echonest_edit2 = pd.read_csv('./fma_metadata/echonest_edit2.csv')
+#echonest_edit2 = pd.read_csv('./fma_metadata/echonest_edit2.csv')
 
-echonest_edit2 = echonest_edit2.drop('track_id', axis=1)
+#echonest_edit2 = echonest_edit2.drop('track_id', axis=1)
 tempo =  echonest_edit2['tempo']
 temp = MinMaxScaler().fit_transform(np.reshape(tempo.tolist(), (-1, 1)))
 echonest_edit2 = echonest_edit2.drop('tempo', axis=1)
@@ -34,7 +34,7 @@ print(len(genres_index))
 
 # 30689 - 30723
 print("lol2")
-trainIDs = echonest_edit.loc[:, 'track_id']
+trainIDs = echonest_edit2.loc[:, 'track_id']
 trainIDs_index = trainIDs.values
 trainIDs_list = trainIDs_index.tolist()
 print(len(trainIDs_index))
@@ -70,7 +70,7 @@ X = echonest_edit2
 y = t
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)  # split
-KNN = KNeighborsClassifier(n_neighbors=30, metric='euclidean')
+KNN = KNeighborsClassifier(n_neighbors=6, metric='euclidean')#metric='minkowski', p=2)
 KNN.fit(X_train, y_train)  # KNN
 
 knn_predict = KNN.predict(X_test)
