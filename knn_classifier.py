@@ -3,6 +3,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder
+from sklearn import preprocessing
 import pandas as pd
 import numpy as np
 import csv
@@ -14,10 +16,18 @@ echonest_edit2 = pd.read_csv('./fma_metadata/echonest_edit.csv')
 #echonest_edit2 = pd.read_csv('./fma_metadata/echonest_edit2.csv')
 
 #echonest_edit2 = echonest_edit2.drop('track_id', axis=1)
-tempo =  echonest_edit2['tempo']
-temp = MinMaxScaler().fit_transform(np.reshape(tempo.tolist(), (-1, 1)))
+
+encode = pd.get_dummies(echonest_edit2['artist_name'])
+print("here")
+print(encode)
+echonest_edit2 = echonest_edit2.drop('artist_name', axis=1)
+echonest_edit2 = echonest_edit2.join(encode)
+
+# tempo = echonest_edit2['tempo']
+# temp = MinMaxScaler().fit_transform(np.reshape(tempo.tolist(), (-1, 1)))
 echonest_edit2 = echonest_edit2.drop('tempo', axis=1)
-echonest_edit2['tempo'] = temp
+# echonest_edit2['tempo'] = temp
+
 # print(tracks_genres.head)
 # print(echonest_edit.head)
 
@@ -69,6 +79,7 @@ for i in range(0, len(g)):
 X = echonest_edit2
 y = t
 
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)  # split
 KNN = KNeighborsClassifier(n_neighbors=6, metric='euclidean')#metric='minkowski', p=2)
 KNN.fit(X_train, y_train)  # KNN
@@ -84,3 +95,4 @@ for i in range(len(knn_predict)):
 f.close()
 
 print("DONE")
+
