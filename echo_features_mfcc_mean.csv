@@ -1,7 +1,6 @@
-feature,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc
-statistics,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean
+track id,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc,mfcc
+ID,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean,mean
 number,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
-track_id,,,,,,,,,,,,,,,,,,,,
 2,-164,117,-41.8,29.1,-15.1,18.9,-8.92,12,-4.25,1.36,-2.68,-0.795,-6.92,-3.66,1.47,0.201,4,-2.11,0.117,-5.79
 3,-159,120,-33.2,47.3,-6.25,31.4,-5.26,11.6,-1.6,5.13,-3.42,6.95,-4.18,-3.53,0.275,-2.27,1.09,-2.34,0.472,-1.55
 5,-205,132,-16.1,41.5,-7.64,16.9,-5.65,9.57,0.503,8.67,-8.27,0.594,-0.34,2.38,7.9,1.95,7.44,-1.74,0.278,-5.49
