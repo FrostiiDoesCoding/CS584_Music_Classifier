@@ -8,22 +8,22 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from sklearn.model_selection import train_test_split
 
-def test(data, data_y, test, test_y):
+def test(data, data_y, test, test_y, genres):
     data = data.reshape(len(data), len(data[0]), 1)
     test = test.reshape(len(test), len(test[0]), 1)
     
-    test_y = keras.utils.to_categorical(test_y, max(data_y) + 1).astype('int32')
-    data_y = keras.utils.to_categorical(data_y).astype('int32')
-
+    #test_y = keras.utils.to_categorical(test_y).astype('int32')
+    #data_y = keras.utils.to_categorical(data_y).astype('int32')
 
     model = keras.Sequential()
-    model.add(layers.LSTM(128, input_shape=(20, 1), return_sequences=True))
-    model.add(layers.LSTM(128))
+    model.add(layers.LSTM(512, activation='relu', input_shape=(20, 1)))#, return_sequences=True))
+    #model.add(layers.LSTM(500))
     #model.add(layers.LSTM(32, activation = 'relu'))
-    model.add(keras.layers.Dense(units=len(data_y[0]), activation='softmax'))
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.0001), loss = 'categorical_crossentropy', metrics=['accuracy'])
-    epochs = 100
-    batch_size = 2000
+    #model.add(keras.layers.Dense(units=len(data_y[0]), activation='softmax'))
+    model.add(keras.layers.Dense(units=genres, activation='softmax'))
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss = 'sparse_categorical_crossentropy', metrics=['accuracy'])
+    epochs = 35
+    batch_size = 64
 
     model.summary()
     genre_model = model.fit(data, data_y, epochs=epochs, batch_size=batch_size, validation_split=0.1)
@@ -33,12 +33,8 @@ def test(data, data_y, test, test_y):
     #                [[0],	[0],	[0],	[0],	[0],	[0]]])
 
     pred = model.predict(test)
-    
-    #test2 = np.array([[[1.89],	[0.761],	[0.345],	[2.3],	[1.65],	[0.0676]]])
 
-    #pred2 = model.predict(test2)
-    x = 10
-    return
+    return pred
 
 def example():
     X = list()
@@ -91,7 +87,18 @@ if __name__ == "__main__":
     data_in = data_in.drop('reassigned' , axis=1)
     data_in = data_in.set_index('track_id').to_numpy()
 
-    x_train, x_test, y_train, y_test = train_test_split(data_in, genre_in, test_size = .3) 
+    genres = len(np.unique(genre_in))
+    x_train, x_test, y_train, y_test = train_test_split(data_in, genre_in, test_size = .3, random_state=10) 
     #data_in = data_in.drop(0, axis = 1)
     #data_y = np.array([0, 1, 2, 1])
-    test(x_train, y_train, x_test, y_test)
+    pred = test(x_train, y_train, x_test, y_test, genres)
+
+    pred_test = [] #(pred[x].tolist().index(max(pred[x])) for x in range(len(pred)))
+
+    for x in range(len(pred)):
+        pred_test.append(pred[x].tolist().index(max(pred[x])))
+
+   # accuracy = (100.0 * len(set(pred_test) & set(y_test))) / len(set(pred_test) | set(y_test))
+
+    print ("Accuracy: " , accuracy)
+
